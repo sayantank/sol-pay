@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.5",
+    "@project-serum/anchor": "^0.19.1-beta.1",
     "@solana/wallet-adapter-base": "^0.8.1",
     "@solana/wallet-adapter-react": "^0.14.1",
     "@solana/wallet-adapter-react-ui": "^0.7.0",
