@@ -16,5 +16,5 @@ html {
 }
 
 body {
-  @apply max-w-2xl min-h-screen mx-auto md:px-0 px-4 relative;
+  @apply max-w-xl min-h-screen mx-auto md:px-0 px-4 relative;
 }
