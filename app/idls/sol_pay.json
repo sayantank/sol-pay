@@ -1,0 +1,289 @@
+{
+  "version": "0.0.0",
+  "name": "sol_pay",
+  "instructions": [
+    {
+      "name": "initializeNewEscrow",
+      "accounts": [
+        {
+          "name": "escrowStateAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowWalletAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fromUser",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "toUser",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintOfTokenBeingSent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "walletToWithdrawFrom",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "escrowId",
+          "type": "u64"
+        },
+        {
+          "name": "stateBump",
+          "type": "u8"
+        },
+        {
+          "name": "walletBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "completeEscrow",
+      "accounts": [
+        {
+          "name": "escrowStateAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowWalletAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "walletToDepositTo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fromUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "toUser",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mintOfTokenBeingSent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "escrowId",
+          "type": "u64"
+        },
+        {
+          "name": "stateBump",
+          "type": "u8"
+        },
+        {
+          "name": "walletBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "pullbackEscrow",
+      "accounts": [
+        {
+          "name": "escrowStateAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowWalletAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fromUser",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "toUser",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintOfTokenBeingSent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "refundWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "escrowId",
+          "type": "u64"
+        },
+        {
+          "name": "stateBump",
+          "type": "u8"
+        },
+        {
+          "name": "walletBump",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "EscrowState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "fromUser",
+            "type": "publicKey"
+          },
+          {
+            "name": "toUser",
+            "type": "publicKey"
+          },
+          {
+            "name": "mintOfTokenBeingSent",
+            "type": "publicKey"
+          },
+          {
+            "name": "escrowWalletAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "stage",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Stage",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "FundsDeposited"
+          },
+          {
+            "name": "EscrowCompleted"
+          },
+          {
+            "name": "PullBackComplete"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 300,
+      "name": "WalletToWithdrawFromInvalid",
+      "msg": "Wallet to withdraw from is not owned by owner"
+    },
+    {
+      "code": 301,
+      "name": "InvalidStateIdx",
+      "msg": "State index is inconsistent"
+    },
+    {
+      "code": 302,
+      "name": "DelegateNotSetCorrectly",
+      "msg": "Delegate is not set correctly"
+    },
+    {
+      "code": 303,
+      "name": "StageInvalid",
+      "msg": "Stage is invalid"
+    }
+  ],
+  "metadata": {
+    "address": "6qZM5m4H6ZspdKraMmJKCLNbFmw6hdWt6z3h71gScQmq"
+  }
+}
